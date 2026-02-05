@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(180deg, #ff758c, #ff7eb3);
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+}
+
+.reel {
+    width: 360px;
+    height: 640px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    padding: 20px;
+    position: relative;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+h1, h2 {
+    color: white;
+}
+
+button {
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+}
+
+#yesBtn {
+    background: #ff3b6f;
+    color: white;
+    left: 20%;
+    bottom: 90px;
+}
+
+#noBtn {
+    background: white;
+    color: #ff3b6f;
+    right: 20%;
+    bottom: 90px;
+}
+
+#finalYes {
+    display: none;
+    background: #ff3b6f;
+    color: white;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 90px;
+}
+
+.photos {
+    margin-top: 20px;
+}
+
+.photos img {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: scale(0.9);
+    animation: reveal 1.5s forwards;
+}
+
+@keyframes reveal {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.final-message {
+    display: none;
+    color: white;
+    font-size: 1.8rem;
+    margin: 40px 0;
+}
+
+.heart {
+    position: absolute;
+    top: -10px;
+    font-size: 22px;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(700px);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="reel" id="reel">
+    <h1>Soumya (Anu) 💕</h1>
+    <h2 id="question">Will you be my Valentine?</h2>
+
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 🙄</button>
+    <button id="finalYes">YES ❤️</button>
+
+    <div class="photos" id="photos"></div>
+
+    <div class="final-message" id="finalMessage">
+        I choose you. Always. 💖
+    </div>
+</div>
+
+<script>
+const photosDiv = document.getElementById("photos");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const finalYes = document.getElementById("finalYes");
+const finalMessage = document.getElementById("finalMessage");
+const question = document.getElementById("question");
+
+const texts = [
+  "Are you sure?",
+  "Really?",
+  "Try again",
+  "you don't love me 😔",
+  "then why are you clicking on no 🙄",
+  "then click on yes baby ❤️",
+  "still no why??",
+  "okay fine 😌 i removed one option"
+];
+
+let step = 0;
+
+noBtn.onclick = () => {
+  if (step < texts.length) {
+    noBtn.textContent = texts[step++];
+    noBtn.style.left = Math.random() * 60 + "%";
+    noBtn.style.top = Math.random() * 60 + "%";
+  } else {
+    noBtn.style.display = "none";
+    yesBtn.style.display = "none";
+    finalYes.style.display = "block";
+  }
+};
+
+yesBtn.onclick = revealPhotos;
+finalYes.onclick = revealPhotos;
+
+/* Photos */
+const photoList = [
+    "photo1.jpg.jpeg",
+    "photo.jpg.jpeg",
+    "photo3.jpg.jpeg",
+    "photo4.jpg.jpeg"
+];
+
+function revealPhotos() {
+  question.textContent = "She said YES 💖";
+  yesBtn.style.display = noBtn.style.display = finalYes.style.display = "none";
+
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i >= photos.length) {
+      clearInterval(interval);
+      finalMessage.style.display = "block";
+      return;
+    }
+
+    const img = document.createElement("img");
+    img.src = photos[i];
+    photosDiv.appendChild(img);
+    i++;
+  }, 2200);
+}
+
+/* Heart rain */
+setInterval(() => {
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerHTML = "💖";
+  h.style.left = Math.random() * 100 + "%";
+  h.style.animationDuration = Math.random() * 3 + 3 + "s";
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 6000);
+}, 250);
+</script>
+
+</body>
+</html>
